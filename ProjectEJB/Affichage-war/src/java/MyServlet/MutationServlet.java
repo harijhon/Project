@@ -8,6 +8,8 @@ package MyServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -91,10 +93,19 @@ public class MutationServlet extends HttpServlet {
             request.setAttribute("another", anotherUser);
             request.setAttribute("omby", ombyTab);
             request.setAttribute("lieu", lieus);
-            Mutation mutation = this.varotraEjb.detailsOfMutation(request.getParameter("id"));
+            Mutation mutation = null;
+            try {
+                mutation = this.varotraEjb.detailsOfMutation(request.getParameter("id"));
+            } catch (Exception ex) {
+                Logger.getLogger(MutationServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             request.setAttribute("mutation", mutation);
         }else if (request.getParameter("action").equals("delete") && request.getParameter("id")!= null) {
-            this.varotraEjb.deleteMutation(request.getParameter("id"));
+            try {
+                this.varotraEjb.deleteMutation(request.getParameter("id"));
+            } catch (Exception ex) {
+                Logger.getLogger(MutationServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         request.getRequestDispatcher(path).forward(request, response);
     }
@@ -123,7 +134,11 @@ public class MutationServlet extends HttpServlet {
             String lieu = request.getParameter("lieuVente");
             Date date = Date.valueOf(request.getParameter("date"));
             Mutation mutation = new Mutation(idOmby,idAcheteur,idVendeur,date,lieu);
-            this.varotraEjb.updateMutation(mutation);
+            try {
+                this.varotraEjb.updateMutation(mutation);
+            } catch (Exception ex) {
+                Logger.getLogger(MutationServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         request.getRequestDispatcher(path).forward(request, response);
     }

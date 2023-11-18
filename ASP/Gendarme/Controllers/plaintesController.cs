@@ -21,7 +21,7 @@ namespace Gendarme.Controllers
         public ActionResult ListJson()
         {
             // Récupérez vos données (par exemple, depuis une base de données)
-            var plaintes = db.plaintes.ToList();
+            var plaintes = db.plainte.ToList();
 
             // Ajoutez l'en-tête 'Access-Control-Allow-Origin' pour permettre les requêtes CORS depuis 'http://localhost:8080'
             Response.AppendHeader("Access-Control-Allow-Origin", "http://localhost:8080");
@@ -37,7 +37,7 @@ namespace Gendarme.Controllers
         public ActionResult Details(int? id)
         {
             Response.AppendHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-            plainte plainte = db.plaintes.Find(id);
+            plainte plainte = db.plainte.Find(id);
             return Json(plainte, JsonRequestBehavior.AllowGet);
         }
 
@@ -49,9 +49,9 @@ namespace Gendarme.Controllers
         public ActionResult Create([Bind(Include = "idPlainte,idOmby,lieuPlainte,datePlainte,lieuResolution,dateResolution")] plainte plainte)
         {
             Response.AppendHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-            db.plaintes.Add(plainte);
+            db.plainte.Add(plainte);
             db.SaveChanges();
-            return Redirect("http://localhost:8080/Affichage-war/Plainte?status=done&idOmby="+plainte.idOmby);
+            return Redirect("http://localhost:8080/Affichage-war/Plainte?status=done&idOmby=" + plainte.idOmby);
         }
 
         [EnableCors("http://localhost:8080", "*", "*")]
@@ -62,7 +62,7 @@ namespace Gendarme.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingPlainte = db.plaintes.Find(id);
+                var existingPlainte = db.plainte.Find(id);
 
                 if (existingPlainte == null)
                 {
@@ -96,8 +96,8 @@ namespace Gendarme.Controllers
         [Route("ControllerName/Delete/{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
-            plainte plainte = db.plaintes.Find(id);
-            db.plaintes.Remove(plainte);
+            plainte plainte = db.plainte.Find(id);
+            db.plainte.Remove(plainte);
             db.SaveChanges();
             return Redirect("http://localhost:8080/Affichage-war/Plainte");
         }

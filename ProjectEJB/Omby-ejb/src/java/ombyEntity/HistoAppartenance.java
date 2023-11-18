@@ -5,7 +5,12 @@
  */
 package ombyEntity;
 
+import Util.MyCon;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class HistoAppartenance extends Mere implements Serializable {
@@ -65,23 +70,101 @@ public class HistoAppartenance extends Mere implements Serializable {
     
     
     @Override
-    void create() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+void create() throws Exception {
+    try {
+        Connection connection = MyCon.getConnection(); // Get a database connection from MyCon
+        
+        // Prepare an INSERT statement to add the new historical record
+        String query = "INSERT INTO histo_appartenance (idAppartenance, omby_id, olona_id, dateDebut) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, idAppartenance);
+        statement.setString(2, omby.getIdOmby()); // Assuming getIdOmby() returns the Omby ID
+        statement.setString(3, olona.getIdOlona()); // Assuming getIdOlona() returns the Olona ID
+        statement.setDate(4, new java.sql.Date(dateDebut.getTime()));
+        
+        // Execute the SQL statement to insert the record
+        statement.executeUpdate();
+        
+        statement.close();
+    } catch (SQLException e) {
+        throw new Exception("Error creating HistoAppartenance: " + e.getMessage());
     }
+}
+
 
     @Override
-    void update() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+void update() throws Exception {
+    try {
+        Connection connection = MyCon.getConnection(); // Get a database connection from MyCon
+        
+        // Prepare an UPDATE statement to modify the historical record based on idAppartenance
+        String query = "UPDATE histo_appartenance SET omby_id=?, olona_id=?, dateDebut=? WHERE idAppartenance=?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, omby.getIdOmby()); // Assuming getIdOmby() returns the Omby ID
+        statement.setString(2, olona.getIdOlona()); // Assuming getIdOlona() returns the Olona ID
+        statement.setDate(3, new java.sql.Date(dateDebut.getTime()));
+        statement.setString(4, idAppartenance);
+        
+        // Execute the SQL statement to update the record
+        statement.executeUpdate();
+        
+        statement.close();
+    } catch (SQLException e) {
+        throw new Exception("Error updating HistoAppartenance: " + e.getMessage());
     }
+}
+
 
     @Override
-    void delete() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+void delete() throws Exception {
+    try {
+        Connection connection = MyCon.getConnection(); // Get a database connection from MyCon
+        
+        // Prepare a DELETE statement to remove the historical record based on idAppartenance
+        String query = "DELETE FROM histo_appartenance WHERE idAppartenance=?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, idAppartenance);
+        
+        // Execute the SQL statement to delete the record
+        statement.executeUpdate();
+        
+        statement.close();
+    } catch (SQLException e) {
+        throw new Exception("Error deleting HistoAppartenance: " + e.getMessage());
     }
+}
+
 
     @Override
-    void details() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+void details() throws Exception {
+    try {
+        Connection connection = MyCon.getConnection(); // Get a database connection from MyCon
+        
+        // Prepare a SELECT statement to fetch the details of the historical record based on idAppartenance
+        String query = "SELECT omby_id, olona_id, dateDebut FROM histo_appartenance WHERE idAppartenance=?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, idAppartenance);
+        ResultSet resultSet = statement.executeQuery();
+        
+        if (resultSet.next()) {
+            String ombyId = resultSet.getString("omby_id");
+            String olonaId = resultSet.getString("olona_id");
+            Date startDate = resultSet.getDate("dateDebut");
+            
+            // You can print or display the details as needed
+            System.out.println("Omby ID: " + ombyId);
+            System.out.println("Olona ID: " + olonaId);
+            System.out.println("Start Date: " + startDate);
+        } else {
+            throw new Exception("HistoAppartenance not found in the database.");
+        }
+        
+        resultSet.close();
+        statement.close();
+    } catch (SQLException e) {
+        throw new Exception("Error fetching HistoAppartenance details: " + e.getMessage());
     }
+}
+
     
 }

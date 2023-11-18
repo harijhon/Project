@@ -19,7 +19,7 @@
     <Property Name="dateResolution" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityContainer Name="gendarmeEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="gendarmes" EntityType="Self.gendarme" />
-    <EntitySet Name="plaintes" EntityType="Self.plainte" />
+    <EntitySet Name="gendarme" EntityType="Self.gendarme" />
+    <EntitySet Name="plainte" EntityType="Self.plainte" />
   </EntityContainer>
 </Schema>

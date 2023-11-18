@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class MyCon {
     public static Connection getConnection() {
-        String jdbcUrl = "jdbc:postgresql://localhost:5432/omby";
+        String jdbcUrl = "jdbc:postgresql://localhost:5432/Omby";
         String username = "postgres";
         String password = "root";
         

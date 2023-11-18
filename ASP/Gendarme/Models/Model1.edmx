@@ -51,8 +51,8 @@
           <Property Name="dateResolution" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityContainer Name="gendarmeEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="gendarmes" EntityType="Self.gendarme" />
-          <EntitySet Name="plaintes" EntityType="Self.plainte" />
+          <EntitySet Name="gendarme" EntityType="Self.gendarme" />
+          <EntitySet Name="plainte" EntityType="Self.plainte" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -60,7 +60,7 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="gendarmeModelStoreContainer" CdmEntityContainer="gendarmeEntities">
-          <EntitySetMapping Name="gendarmes">
+          <EntitySetMapping Name="gendarme">
             <EntityTypeMapping TypeName="gendarmeModel.gendarme">
               <MappingFragment StoreEntitySet="gendarme">
                 <ScalarProperty Name="idPlainte" ColumnName="idPlainte" />
@@ -68,7 +68,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="plaintes">
+          <EntitySetMapping Name="plainte">
             <EntityTypeMapping TypeName="gendarmeModel.plainte">
               <MappingFragment StoreEntitySet="plainte">
                 <ScalarProperty Name="idPlainte" ColumnName="idPlainte" />
@@ -94,7 +94,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

@@ -25,7 +25,7 @@ namespace Gendarme.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<gendarme> gendarmes { get; set; }
-        public virtual DbSet<plainte> plaintes { get; set; }
+        public virtual DbSet<gendarme> gendarme { get; set; }
+        public virtual DbSet<plainte> plainte { get; set; }
     }
 }

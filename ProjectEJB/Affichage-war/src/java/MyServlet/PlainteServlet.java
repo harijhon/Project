@@ -77,34 +77,41 @@ public class PlainteServlet extends HttpServlet {
         if (request.getParameter("action") == null) {
             String url = "http://localhost:58974/plaintes/List";
             request.setAttribute("plainte", jsonApiClient.getPlainteList(url));
-            request.getRequestDispatcher(path).forward(request, response);
         } else if (request.getParameter("action").equals("creation")) {
-            
+
             Localisation[] lieus = this.ombyEJB.getAll();
             request.setAttribute("lieu", lieus);
             Omby[] ombyTab = this.ombyEJB.getAllOmby(user);
             request.setAttribute("omby", ombyTab);
-            if(request.getParameter("status")!=null && request.getParameter("status").equals("done")){
+            if (request.getParameter("status") != null && request.getParameter("status").equals("done")) {
                 this.ombyEJB.removeAssignementOf(request.getParameter("idOmby"));
-            }else{
+            } else {
                 path = "plainte/create-plainte.jsp";
             }
-        }else if (request.getParameter("action").equals("update")) {
-            path = "plainte/update-plainte.jsp";
-            Localisation[] lieus = this.ombyEJB.getAll();
-            request.setAttribute("lieu", lieus);
-            Omby[] ombyTab = this.ombyEJB.getAllOmby(user);
-            request.setAttribute("omby", ombyTab);
-            request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/"+ request.getParameter("idPlainte")));
-        }else if (request.getParameter("action").equals("delete")) {
+        } else if (request.getParameter("action").equals("update")) {
+            if (request.getParameter("status") != null) {
+                String idOmby = request.getParameter("idOmby");
+                String idLoc = request.getParameter("idLoc");
+                if (!(request.getParameter("idLoc").equals("null")&&request.getParameter("idOmby")==null)) {
+                    this.ombyEJB.findAt(idOmby, idLoc);
+                }
+                String url = "http://localhost:58974/plaintes/List";
+                request.setAttribute("plainte", jsonApiClient.getPlainteList(url));
+            } else {
+                path = "plainte/update-plainte.jsp";
+                Localisation[] lieus = this.ombyEJB.getAll();
+                request.setAttribute("lieu", lieus);
+                Omby[] ombyTab = this.ombyEJB.getAllOmby(user);
+                request.setAttribute("omby", ombyTab);
+                request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/" + request.getParameter("idPlainte")));
+            }
+        } else if (request.getParameter("action").equals("delete")) {
             path = "plainte/delete-plainte.jsp";
-            request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/"+ request.getParameter("idPlainte")));
-        }
-        else if (request.getParameter("action").equals("fiche")) {
+            request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/" + request.getParameter("idPlainte")));
+        } else if (request.getParameter("action").equals("fiche")) {
             path = "plainte/fiche-plainte.jsp";
-            request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/"+ request.getParameter("idPlainte")));
-        }
-        else if (request.getParameter("action").equals("resolu")) {
+            request.setAttribute("plainte", jsonApiClient.getPlainte("http://localhost:58974/plaintes/Details/" + request.getParameter("idPlainte")));
+        } else if (request.getParameter("action").equals("resolu")) {
             this.ombyEJB.findAt(request.getParameter("idOmby"), request.getParameter("idLocalisation"));
         }
         request.getRequestDispatcher(path).forward(request, response);

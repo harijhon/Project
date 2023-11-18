@@ -5,6 +5,7 @@
  */
 package ombyEJB;
 
+import java.sql.SQLException;
 import java.util.Date;
 import ombyEntity.Localisation;
 import ombyEntity.Olona;
@@ -32,8 +33,9 @@ public interface OmbyEJB {
     Omby[] getAllOmby(Olona olona);
     Olona[] getAlOtherUser();
     Olona findById(String id);
-    
 //    Localisation
-    void addNewLocalisation(Localisation localisation);
+    void createLocalisation(Localisation localisation);
     Localisation[] getAll();
+
+    public void handleSQLException(SQLException e);
 }

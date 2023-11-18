@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package varotraEJB;
-
+import Util.MyCon;
 import java.sql.Date;
 import javax.ejb.Local;
 import varotraEntity.Mutation;
@@ -15,10 +15,10 @@ import varotraEntity.Mutation;
  */
 @Local
 public interface VarotraEJB {
-    void createMutation(Mutation mutation);
-    void updateMutation(Mutation mutation);
-    void deleteMutation(String idMutation);
-    Mutation detailsOfMutation(String idMutation);
+    void createMutation(Mutation mutation)throws Exception;
+    void updateMutation(Mutation mutation)throws Exception;
+    void deleteMutation(String idMutation)throws Exception;
+    Mutation detailsOfMutation(String idMutation) throws Exception;
     
     Mutation[] getAllSellsOf(String IdOlona); 
     Mutation[] getAllSellsMadeBy(String IdOlona); 

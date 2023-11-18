@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package varotraEJB;
-
 import java.sql.Date;
 import javax.ejb.Stateless;
 import varotraEntity.Mutation;
@@ -17,51 +16,53 @@ import varotraEntity.Mutation;
 public class VarotraEJBBean implements VarotraEJB {
 
     @Override
-    public void createMutation(Mutation mutation) {
+    public void createMutation(Mutation mutation) throws Exception {
+      mutation.create();
+}
+
+    @Override
+    public void updateMutation(Mutation mutation) throws Exception {
+        mutation.update();
     }
 
     @Override
-    public void updateMutation(Mutation mutation) {
+    public void deleteMutation(String idMutation) throws Exception  {
+       Mutation mutation = new Mutation();
+        mutation.setIdMutation(idMutation); 
+        mutation.delete();
     }
 
     @Override
-    public void deleteMutation(String idMutation) {
+    public Mutation detailsOfMutation(String idMutation) throws Exception {
+        Mutation mutation = new Mutation();
+        mutation.setIdMutation(idMutation);
+        mutation.details();
+        return null;
     }
+    
+    @Override
+    public Mutation[] getAllSellsOf(String idOlona) {
+    Mutation[] mutations = Mutation.getAllSellsOf(idOlona);
+    return mutations;
+}
+
 
     @Override
-    public Mutation detailsOfMutation(String idMutation) {
-        return new Mutation("MUT3","OL1","OL3",Date.valueOf("2023-11-05"),"LOC1");
-    }
+    public Mutation[] getAllSellsMadeBy(String idMpivarotra) {
+    return Mutation.getAllSellsMadeBy(idMpivarotra);
+}
 
-    @Override
-    public Mutation[] getAllSellsOf(String IdOlona) {
-        Mutation[] m = new Mutation[3];
-        m[0]=new Mutation("MUT1","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[1]=new Mutation("MUT2","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[2]=new Mutation("MUT3","OL1","OL3",Date.valueOf("2023-11-05"),"LOC1");
-        return m;
-    }
-
-    @Override
-    public Mutation[] getAllSellsMadeBy(String IdOlona) {
-        Mutation[] m = new Mutation[3];
-        m[0]=new Mutation("MUT1","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[1]=new Mutation("MUT2","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[2]=new Mutation("MUT3","OL1","OL3",Date.valueOf("2023-11-05"),"LOC1");
-        return m;
-    }
 
     @Override
     public void createMultipleMutation(String[] omby, String acheteur, String vendeur, Date date) {
-    }
+    Mutation.createMultipleMutation(omby, acheteur, vendeur, date);
+}
+
 
     @Override
     public Mutation[] getAll() {
-        Mutation[] m = new Mutation[3];
-        m[0]=new Mutation("MUT1","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[1]=new Mutation("MUT2","OL2","OL1",Date.valueOf("2023-11-05"),"LOC1");
-        m[2]=new Mutation("MUT3","OL1","OL3",Date.valueOf("2023-11-05"),"LOC1");
-        return m;
-    }
+    return Mutation.getAll();
+}
+
     
 }

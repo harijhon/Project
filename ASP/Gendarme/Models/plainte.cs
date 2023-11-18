@@ -17,23 +17,8 @@ namespace Gendarme.Models
         public int idPlainte { get; set; }
         public string idOmby { get; set; }
         public string lieuPlainte { get; set; }
-
-        [JsonDateFormat("dd-MM-yyyy")]
         public Nullable<System.DateTime> datePlainte { get; set; }
         public string lieuResolution { get; set; }
-
-        [JsonDateFormat("dd-MM-yyyy")]
         public Nullable<System.DateTime> dateResolution { get; set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    sealed class JsonDateFormatAttribute : Attribute
-    {
-        public JsonDateFormatAttribute(string format)
-        {
-            Format = format;
-        }
-
-        public string Format { get; }
     }
 }

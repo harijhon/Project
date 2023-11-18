@@ -5,6 +5,7 @@
  */
 package ombyEJB;
 
+import java.sql.SQLException;
 import java.util.Date;
 import javax.ejb.Stateless;
 import ombyEntity.Localisation;
@@ -20,6 +21,7 @@ public class OmbyEJBBean implements OmbyEJB {
 
     @Override
     public void createOmby(Omby omby) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -58,7 +60,6 @@ public class OmbyEJBBean implements OmbyEJB {
         return null;
     }
 
-    @Override
     public void addNewLocalisation(Localisation localisation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -113,6 +114,16 @@ public class OmbyEJBBean implements OmbyEJB {
 
     @Override
     public void findAt(String idOmby, String idLocalisation) {
+    }
+
+    @Override
+    public void createLocalisation(Localisation localisation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void handleSQLException(SQLException e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -49,6 +49,7 @@
     <div class="mb-3">
         <label for="Select" class="form-label">lieu de resolution</label>
         <select id="Select" class="form-select" name="lieuResolution" >
+            <option value="null" selected="" >inconnue</option>
             <% for (Localisation lieu : lieus) {%>
             <% if (lieu.getIdLoc() == plainte.getLieuResolution()) {%> 
             <option value="<%= lieu.getIdLoc()%>" selected="" ><%= lieu.getNom()%></option>  

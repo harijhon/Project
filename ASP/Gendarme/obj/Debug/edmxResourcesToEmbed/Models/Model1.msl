@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="gendarmeModelStoreContainer" CdmEntityContainer="gendarmeEntities">
-    <EntitySetMapping Name="gendarmes">
+    <EntitySetMapping Name="gendarme">
       <EntityTypeMapping TypeName="gendarmeModel.gendarme">
         <MappingFragment StoreEntitySet="gendarme">
           <ScalarProperty Name="idPlainte" ColumnName="idPlainte" />
@@ -9,7 +9,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="plaintes">
+    <EntitySetMapping Name="plainte">
       <EntityTypeMapping TypeName="gendarmeModel.plainte">
         <MappingFragment StoreEntitySet="plainte">
           <ScalarProperty Name="idPlainte" ColumnName="idPlainte" />

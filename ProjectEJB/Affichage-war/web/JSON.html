@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemple de requête AJAX</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Inclure jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Un bouton pour déclencher la requête AJAX -->
+    <button id="myButton">Obtenir des données JSON</button>
+
+    <!-- Un élément pour afficher les données JSON -->
+    <div id="output"></div>
+
+    <script>
+        $(document).ready(function () {
+            // Attachez un gestionnaire d'événement au clic du bouton.
+            $("#myButton").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:58974/plaintes/ListJSON", // Assurez-vous que l'URL est correcte.
+                    dataType: "json",
+                    success: function (data) {
+                        // "data" contient les données JSON récupérées depuis le serveur.
+                        console.log(data);
+
+                        // Vous pouvez maintenant traiter ces données comme vous le souhaitez.
+                        // Par exemple, afficher les données dans la div.
+                        $("#output").text(JSON.stringify(data));
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Erreur lors de la requête AJAX : " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

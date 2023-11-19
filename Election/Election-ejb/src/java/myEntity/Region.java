@@ -73,7 +73,6 @@ public class Region {
             preparedStatement.setString(1, idRegion);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Remplir les attributs avec les données de la base de données
                     this.idRegion = resultSet.getString("id_region");
                     this.nomRegion = resultSet.getString("nom_region");
                 }

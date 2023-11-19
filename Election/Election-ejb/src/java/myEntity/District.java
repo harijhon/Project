@@ -92,5 +92,4 @@ public class District {
         }
     }
 
-    // Autres méthodes spécifiques à la classe District (à compléter)
 }

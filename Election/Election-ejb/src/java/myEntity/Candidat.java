@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Candidat 
-{
+public class Candidat {
 
     private int candidatId;
     private String nomCandidat;
@@ -39,23 +36,24 @@ public class Candidat
         this.nomCandidat = nomCandidat;
     }
 
-    // Méthode pour créer un nouveau candidat
+    // CRUD Methods
+
     public void create(Connection connex) throws SQLException {
         String insertQuery = "INSERT INTO Candidat (nom_candidat) VALUES (?)";
         try (PreparedStatement preparedStatement = connex.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, nomCandidat);
             preparedStatement.executeUpdate();
 
-            // Récupérer l'ID généré automatiquement
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     this.candidatId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("La création du candidat a échoué, aucun ID généré.");
                 }
             }
         }
     }
 
-    // Méthode pour mettre à jour le nom d'un candidat
     public void update(Connection connex) throws SQLException {
         String updateQuery = "UPDATE Candidat SET nom_candidat = ? WHERE candidat_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(updateQuery)) {
@@ -65,7 +63,6 @@ public class Candidat
         }
     }
 
-    // Méthode pour supprimer un candidat
     public void delete(Connection connex) throws SQLException {
         String deleteQuery = "DELETE FROM Candidat WHERE candidat_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(deleteQuery)) {
@@ -74,34 +71,17 @@ public class Candidat
         }
     }
 
-    // Méthode pour afficher les détails d'un candidat
     public void details(Connection connex) throws SQLException {
         String selectQuery = "SELECT * FROM Candidat WHERE candidat_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, candidatId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    // Remplir les attributs avec les données de la base de données
                     this.candidatId = resultSet.getInt("candidat_id");
                     this.nomCandidat = resultSet.getString("nom_candidat");
                 }
             }
         }
     }
-
-    // Méthode pour obtenir la liste de tous les candidats
-    public static List<Candidat> getAllCandidates(Connection connex) throws SQLException {
-        List<Candidat> candidates = new ArrayList<>();
-        String selectAllQuery = "SELECT * FROM Candidat";
-        try (PreparedStatement preparedStatement = connex.prepareStatement(selectAllQuery);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Candidat candidate = new Candidat();
-                candidate.setCandidatId(resultSet.getInt("candidat_id"));
-                candidate.setNomCandidat(resultSet.getString("nom_candidat"));
-                candidates.add(candidate);
-            }
-        }
-        return candidates;
-    }
-
 }

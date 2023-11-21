@@ -5,7 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class vote_bureau {
+public class Bureau {
+
+    public static Bureau findByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static int getTotalResteDeVoix(int idBureau) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static int getNombreDeVoixTotal(int idBureau) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     private int bureauVoteId;
     private String nomBureau;
@@ -16,10 +28,10 @@ public class vote_bureau {
     private int nbreVatoMety;
 
     // Constructeurs
-    public vote_bureau() {
+    public Bureau() {
     }
 
-    public vote_bureau(int bureauVoteId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreOlonaVoafidy, int nbreVatoMety) {
+    public Bureau(int bureauVoteId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreOlonaVoafidy, int nbreVatoMety) {
         this.bureauVoteId = bureauVoteId;
         this.nomBureau = nomBureau;
         this.districtId = districtId;

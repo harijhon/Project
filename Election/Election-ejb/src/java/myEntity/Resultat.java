@@ -7,6 +7,10 @@ import java.sql.SQLException;
 
 public class Resultat {
 
+    public static Object findByBureauID(int idBureau) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private int bureauVoteId;
     private int candidatId;
     private int nombreVote;

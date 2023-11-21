@@ -32,6 +32,11 @@ ADD COLUMN nbre_olona_voafidy INT default 0;
 ALTER TABLE bureau_vote
 ADD COLUMN nbre_vato_mety INT default 0;
 
+ALTER TABLE bureau_vote
+RENAME COLUMN nbre_vato_mety TO nbre_vato_valide;
+
+select * from bureau_vote
+
 
 select * from District
 
@@ -85,7 +90,7 @@ INSERT INTO Candidat (nom_candidat) VALUES ('Andry Rajoelina');
 -- Insérer des données dans la table "Liste_electorale"
 INSERT INTO Liste_electorale (nom_liste, bureau_vote_id, CIN) VALUES ('Liste 1', 1, '123456789');
 INSERT INTO Liste_electorale (nom_liste, bureau_vote_id, CIN) VALUES ('Liste 2', 2, '987654321');
--- Ajoutez trois autres listes électorales selon vos besoins.
+
 
 -- Insérer des données dans la table "Resultat"
 INSERT INTO Resultat (bureau_vote_id, candidat_id, nombre_vote) VALUES (1, 1, 50);
@@ -116,9 +121,9 @@ JOIN
 JOIN
     District D ON BV.district_id = D.district_id
 GROUP BY
-    R.candidat_id, C.nom_candidat, D.id_region, R.bureau_vote_id;
+    R.candidat_id, D.id_region, C.nom_candidat,R.bureau_vote_id;
 
-    
+   select * from resultat 
 
 --CANDIDAT PAR DISTRICT
 CREATE VIEW view_resultat_par_candidat_par_district AS
@@ -126,7 +131,7 @@ SELECT
     R.candidat_id,
     C.nom_candidat,
     D.nom_district,
-    R.bureau_vote_id,
+	
     COUNT(*) AS nombre_de_votes
 FROM
     Resultat R
@@ -137,7 +142,7 @@ JOIN
 JOIN
     District D ON BV.district_id = D.district_id
 GROUP BY
-    R.candidat_id, C.nom_candidat, D.nom_district, R.bureau_vote_id;
+    R.candidat_id, C.nom_candidat, D.nom_district;
 
 --Pourcentage par candidat
 CREATE VIEW view_percentage_par_candidat AS
@@ -167,7 +172,7 @@ GROUP BY
     BV.bureau_vote_id, BV.nom_bureau, BV.nbre_olona_afaka_mifidy;
 
 
-
+select * from bureau
 
 
 

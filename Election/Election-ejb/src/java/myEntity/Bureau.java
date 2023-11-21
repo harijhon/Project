@@ -13,18 +13,20 @@ public class Bureau {
     private String nomBureau;
     private int districtId;
     private int nbreOlonaAfakaMifidy;
+    private int nbreOlonaNifidy;
     private int nbreVatoFotsy;
     private int nbreVatoValide;
 
-    // Constructeurs
+    
     public Bureau() {
     }
 
-    public Bureau(int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreVatoFotsy, int nbreVatoValide) {
+    public Bureau(int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide) {
         this.bureauId = bureauId;
         this.nomBureau = nomBureau;
         this.districtId = districtId;
         this.nbreOlonaAfakaMifidy = nbreOlonaAfakaMifidy;
+        this.nbreOlonaNifidy = nbreOlonaNifidy;
         this.nbreVatoFotsy = nbreVatoFotsy;
         this.nbreVatoValide = nbreVatoValide;
     }
@@ -62,6 +64,14 @@ public class Bureau {
         this.nbreOlonaAfakaMifidy = nbreOlonaAfakaMifidy;
     }
 
+    public int getNbreOlonaNifidy() {
+        return nbreOlonaNifidy;
+    }
+
+    public void setNbreOlonaNifidy(int nbreOlonaNifidy) {
+        this.nbreOlonaNifidy = nbreOlonaNifidy;
+    }
+
     public int getNbreVatoFotsy() {
         return nbreVatoFotsy;
     }
@@ -78,18 +88,19 @@ public class Bureau {
         this.nbreVatoValide = nbreVatoValide;
     }
 
-    // Méthode pour créer un nouveau bureau
+    
     public void create(Connection connex) throws SQLException {
-        String insertQuery = "INSERT INTO bureau_vote (nom_bureau, district_id, nbre_olona_afaka_mifidy, nbre_vato_fotsy, nbre_vato_valide) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO bureau_vote (nom_bureau, district_id, nbre_olona_afaka_mifidy, nbre_olona_nifidy, nbre_vato_fotsy, nbre_vato_valide) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connex.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, nomBureau);
             preparedStatement.setInt(2, districtId);
             preparedStatement.setInt(3, nbreOlonaAfakaMifidy);
-            preparedStatement.setInt(4, nbreVatoFotsy);
-            preparedStatement.setInt(5, nbreVatoValide);
+            preparedStatement.setInt(4, nbreOlonaNifidy);
+            preparedStatement.setInt(5, nbreVatoFotsy);
+            preparedStatement.setInt(6, nbreVatoValide);
             preparedStatement.executeUpdate();
 
-            // Récupérer l'ID généré automatiquement
+            
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     this.bureauId = generatedKeys.getInt(1);
@@ -98,21 +109,22 @@ public class Bureau {
         }
     }
 
-    // Méthode pour mettre à jour les informations d'un bureau
+    
     public void update(Connection connex) throws SQLException {
-        String updateQuery = "UPDATE bureau_vote SET nom_bureau = ?, district_id = ?, nbre_olona_afaka_mifidy = ?, nbre_vato_fotsy = ?, nbre_vato_valide = ? WHERE bureau_vote_id = ?";
+        String updateQuery = "UPDATE bureau_vote SET nom_bureau = ?, district_id = ?, nbre_olona_afaka_mifidy = ?, nbre_olona_nifidy = ?, nbre_vato_fotsy = ?, nbre_vato_valide = ? WHERE bureau_vote_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, nomBureau);
             preparedStatement.setInt(2, districtId);
             preparedStatement.setInt(3, nbreOlonaAfakaMifidy);
-            preparedStatement.setInt(4, nbreVatoFotsy);
-            preparedStatement.setInt(5, nbreVatoValide);
-            preparedStatement.setInt(6, bureauId);
+            preparedStatement.setInt(4, nbreOlonaNifidy);
+            preparedStatement.setInt(5, nbreVatoFotsy);
+            preparedStatement.setInt(6, nbreVatoValide);
+            preparedStatement.setInt(7, bureauId);
             preparedStatement.executeUpdate();
         }
     }
 
-    // Méthode pour supprimer un bureau
+    
     public void delete(Connection connex) throws SQLException {
         String deleteQuery = "DELETE FROM bureau_vote WHERE bureau_vote_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(deleteQuery)) {
@@ -121,18 +133,19 @@ public class Bureau {
         }
     }
 
-    // Méthode pour afficher les détails d'un bureau
+
     public void details(Connection connex) throws SQLException {
         String selectQuery = "SELECT * FROM bureau_vote WHERE bureau_vote_id = ?";
         try (PreparedStatement preparedStatement = connex.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, bureauId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Remplir les attributs avec les données de la base de données
+                
                     this.bureauId = resultSet.getInt("bureau_vote_id");
                     this.nomBureau = resultSet.getString("nom_bureau");
                     this.districtId = resultSet.getInt("district_id");
                     this.nbreOlonaAfakaMifidy = resultSet.getInt("nbre_olona_afaka_mifidy");
+                    this.nbreOlonaNifidy = resultSet.getInt("nbre_olona_nifidy");
                     this.nbreVatoFotsy = resultSet.getInt("nbre_vato_fotsy");
                     this.nbreVatoValide = resultSet.getInt("nbre_vato_valide");
                 }
@@ -140,7 +153,7 @@ public class Bureau {
         }
     }
 
-    // Méthode pour obtenir la liste de tous les bureaux
+    
     public static List<Bureau> getAllBureaus(Connection connex) throws SQLException {
         List<Bureau> bureaus = new ArrayList<>();
         String selectAllQuery = "SELECT * FROM bureau_vote";
@@ -152,6 +165,7 @@ public class Bureau {
                 bureau.setNomBureau(resultSet.getString("nom_bureau"));
                 bureau.setDistrictId(resultSet.getInt("district_id"));
                 bureau.setNbreOlonaAfakaMifidy(resultSet.getInt("nbre_olona_afaka_mifidy"));
+                bureau.setNbreOlonaNifidy(resultSet.getInt("nbre_olona_nifidy"));
                 bureau.setNbreVatoFotsy(resultSet.getInt("nbre_vato_fotsy"));
                 bureau.setNbreVatoValide(resultSet.getInt("nbre_vato_valide"));
                 bureaus.add(bureau);
@@ -160,5 +174,5 @@ public class Bureau {
         return bureaus;
     }
 
-    // Autres méthodes spécifiques à la classe Bureau (à compléter)
+    
 }

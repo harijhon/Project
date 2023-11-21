@@ -7,6 +7,11 @@ import java.sql.SQLException;
 
 public class Candidat {
 
+    public static Candidat findById(int idCandidat) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     private int candidatId;
     private String nomCandidat;
 

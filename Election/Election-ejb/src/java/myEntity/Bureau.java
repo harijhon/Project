@@ -1,5 +1,6 @@
 package myEntity;
 
+import ElectionUtils.BureauUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bureau {
+
+    public static int getNombreDeVoixTotal(int valide) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Object findByID(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static int getTotalResteDeVoix(int idBureau) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     private int bureauId;
     private String nomBureau;
@@ -21,7 +34,10 @@ public class Bureau {
     public Bureau() {
     }
 
-    public Bureau(int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide) {
+    public Bureau
+        (int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide)
+        throws Exception{
+        BureauUtils.checkData(bureauId, nbreOlonaNifidy, nbreVatoValide, nbreVatoFotsy);
         this.bureauId = bureauId;
         this.nomBureau = nomBureau;
         this.districtId = districtId;

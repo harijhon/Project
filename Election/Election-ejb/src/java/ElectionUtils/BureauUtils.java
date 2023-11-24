@@ -5,31 +5,32 @@
  */
 package ElectionUtils;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import myEntity.Bureau;
 import myException.ElectionException;
 
-/**
- *
- * @author RazOnTheFloor
- */
+
 public class BureauUtils {
-    static String checkNonValiditer(int id){
+    static String checkNonValiditer(Connection con,int id){
         if(Bureau.findByID(id)== null){ 
             return " Bureau de vote non existant";
         } 
         return "";
     }
-    static String checkValiditer(int id){
+    static String checkValiditer(Connection con,int id){
         if(Bureau.findByID(id)!= null){ 
             return " Bureau de vote deja existant";
         } 
         return "";
     }
-    static String checkLogique(int total, int blanc, int valide){
+    static String checkLogique(Connection con,int total, int blanc, int valide){
         String error = "";
         
         if(Bureau.getNombreDeVoixTotal(valide)< total){
-            error+= "Nombre de voix total invalide";
+            error+= "Nombre de voix total invalide"
+                    + "";
         }
         if(total != (blanc + valide)){
             error+= "Anomalie entre le nombre de vote valide et de vote blanc";
@@ -37,13 +38,25 @@ public class BureauUtils {
         return error;
     }
     
-    public static void checkData(int id,int total, int blanc, int valide)throws ElectionException{
-        String error ="";
-        error+=checkNonValiditer(id);
-        error += checkLogique(total,blanc,valide);
-        if (error.equalsIgnoreCase("")) {
-            throw new ElectionException(error);
+    public static void checkData(int id,int total, int blanc, int valide)throws Exception{
+        Connection con = null;
+        try{
+            String error ="";
+            error+=checkNonValiditer(con,id);
+            error += checkLogique(con,total,blanc,valide);
+            if (error.equalsIgnoreCase("")) {
+                throw new ElectionException(error);
+            }
+        }catch(Exception e){
+            throw e;
+        }finally{
+            if(con!= null){
+                con.close();
+            }
+            
         }
     }
+    
+    
     
 }

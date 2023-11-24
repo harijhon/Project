@@ -1,5 +1,6 @@
 package myEntity;
 
+import ElectionUtils.ResultatUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,8 @@ public class Resultat {
     public Resultat() {
     }
 
-    public Resultat(int bureauVoteId, int candidatId, int nombreVote) {
+    public Resultat(int bureauVoteId, int candidatId, int nombreVote)throws Exception {
+        ResultatUtils.checkData(nombreVote, candidatId, candidatId);
         this.bureauVoteId = bureauVoteId;
         this.candidatId = candidatId;
         this.nombreVote = nombreVote;

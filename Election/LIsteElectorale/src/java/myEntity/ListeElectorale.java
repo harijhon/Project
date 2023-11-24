@@ -67,7 +67,6 @@ public class ListeElectorale {
             preparedStatement.setString(3, cin);
             preparedStatement.executeUpdate();
 
-            // Récupérer l'ID généré automatiquement
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     this.listeId = generatedKeys.getInt(1);
@@ -104,7 +103,6 @@ public class ListeElectorale {
             preparedStatement.setInt(1, listeId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Remplir les attributs avec les données de la base de données
                     this.listeId = resultSet.getInt("liste_id");
                     this.nomListe = resultSet.getString("nom_liste");
                     this.bureauId = resultSet.getInt("bureau_id");

@@ -5,7 +5,10 @@
  */
 package myEJB;
 
+import ElectionUtils.BureauUtils;
+import java.util.List;
 import javax.ejb.Local;
+import myEntity.*;
 
 /**
  *
@@ -13,5 +16,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface ElectionEJBLocal {
-    
+    public abstract void setBureau(int id, String nom, int idDisctrict,int total,int blanc,int valide )throws Exception;
+    public abstract List<Bureau> getBureau();
+    public abstract List<Candidat> getCandidat();
+    public abstract List<District> getDistrict();
+    public abstract List<Region> getRegion();
+
+    public void creatEJB();
 }

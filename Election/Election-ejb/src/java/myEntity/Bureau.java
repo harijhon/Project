@@ -1,5 +1,6 @@
 package myEntity;
 
+import ElectionUtils.BureauUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bureau {
+
+    public static int getNombreDeVoixTotal(int valide) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     private int bureauId;
     private String nomBureau;
@@ -21,7 +26,8 @@ public class Bureau {
     public Bureau() {
     }
 
-    public Bureau(int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide) {
+    public Bureau(int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide) throws Exception {
+        BureauUtils.checkDataAndSend(bureauId, districtId, nbreOlonaNifidy, nbreVatoFotsy, nbreVatoValide, nomBureau);
         this.bureauId = bureauId;
         this.nomBureau = nomBureau;
         this.districtId = districtId;
@@ -89,7 +95,7 @@ public class Bureau {
     }
 
     
-    public void create(Connection connex) throws SQLException {
+    public static void create(Connection connex,int bureauId, String nomBureau, int districtId, int nbreOlonaAfakaMifidy, int nbreOlonaNifidy, int nbreVatoFotsy, int nbreVatoValide) throws SQLException {
         String insertQuery = "INSERT INTO bureau_vote (nom_bureau, district_id, nbre_olona_afaka_mifidy, nbre_olona_nifidy, nbre_vato_fotsy, nbre_vato_valide) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connex.prepareStatement(insertQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, nomBureau);
@@ -99,13 +105,6 @@ public class Bureau {
             preparedStatement.setInt(5, nbreVatoFotsy);
             preparedStatement.setInt(6, nbreVatoValide);
             preparedStatement.executeUpdate();
-
-            
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    this.bureauId = generatedKeys.getInt(1);
-                }
-            }
         }
     }
 
@@ -151,6 +150,26 @@ public class Bureau {
                 }
             }
         }
+    }
+    public  static Bureau findByID(Connection connex, int id) throws SQLException {
+        Bureau b = new Bureau();
+        String selectQuery = "SELECT * FROM bureau_vote WHERE bureau_vote_id = ?";
+        try (PreparedStatement preparedStatement = connex.prepareStatement(selectQuery)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                
+                    b.bureauId = resultSet.getInt("bureau_vote_id");
+                    b.nomBureau = resultSet.getString("nom_bureau");
+                    b.districtId = resultSet.getInt("district_id");
+                    b.nbreOlonaAfakaMifidy = resultSet.getInt("nbre_olona_afaka_mifidy");
+                    b.nbreOlonaNifidy = resultSet.getInt("nbre_olona_nifidy");
+                    b.nbreVatoFotsy = resultSet.getInt("nbre_vato_fotsy");
+                    b.nbreVatoValide = resultSet.getInt("nbre_vato_valide");
+                }
+            }
+        }
+        return b;
     }
 
     

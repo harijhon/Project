@@ -5,6 +5,8 @@
  */
 package ElectionUtils;
 
+import Util.MyCon;
+import java.sql.Connection;
 import myEntity.Bureau;
 import myException.ElectionException;
 
@@ -13,22 +15,22 @@ import myException.ElectionException;
  * @author RazOnTheFloor
  */
 public class BureauUtils {
-    static String checkNonValiditer(int id){
-        if(Bureau.findByID(id)== null){ 
+    static String checkNonValiditer(Connection con,int id,int idDistrict) throws Exception {
+        if(Bureau.findByID(con,id) == null){ 
             return " Bureau de vote non existant";
         } 
         return "";
     }
-    static String checkValiditer(int id){
-        if(Bureau.findByID(id)!= null){ 
+    static String checkValiditer(Connection con,int id)throws Exception {
+        if(Bureau.findByID(con,id) == null){ 
             return " Bureau de vote deja existant";
         } 
         return "";
     }
-    static String checkLogique(int total, int blanc, int valide){
+    static String checkLogique(int total, int blanc, int valide,int id){
         String error = "";
         
-        if(Bureau.getNombreDeVoixTotal(valide)< total){
+        if(Bureau.getNombreDeVoixTotal(id)< total){
             error+= "Nombre de voix total invalide";
         }
         if(total != (blanc + valide)){
@@ -37,12 +39,23 @@ public class BureauUtils {
         return error;
     }
     
-    public static void checkData(int id,int total, int blanc, int valide)throws ElectionException{
-        String error ="";
-        error+=checkNonValiditer(id);
-        error += checkLogique(total,blanc,valide);
-        if (error.equalsIgnoreCase("")) {
-            throw new ElectionException(error);
+    public static void checkDataAndSend(int id,int idDistrict,int total, int blanc, int valide, String nom)throws Exception{
+        Connection con = null;
+        try{
+            con = MyCon.getConnection();
+            String error ="";
+            error+=checkNonValiditer(con,id,idDistrict);
+            error += checkLogique(total,blanc,valide,id);
+            if (error.equalsIgnoreCase("")) {
+                throw new ElectionException(error);
+            }
+            Bureau.create(con, id, nom, idDistrict, Bureau.getNombreDeVoixTotal(id), total, blanc, valide);
+        }catch(Exception e){
+            throw e;
+        }finally{
+            if(con!=null){
+                con.close();
+            }
         }
     }
     
